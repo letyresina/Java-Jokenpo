@@ -141,17 +141,7 @@ public class Jogo extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// usuário clicou, o botão sumiu
 				btJogar.setVisible(false);
-				
-				// no momento em que o usuário clica em jogar, é necessário que retorne um número aleatório para definir imagem
-				int opcaoIA = (int)(Math.random() * 4);
-				
-				if (opcaoIA == 1) {
-					lbImagemIA.setIcon(imagemPedra);
-				} else if (opcaoIA == 2) {
-					lbImagemIA.setIcon(imagemPapel);
-				} else {
-					lbImagemIA.setIcon(imagemTesoura);
-				}
+				int opcaoIA = imagemIA(); // pega da função qual foi a opção da IA
 				
 				// logica de jogo para caso a pedra esteja selecionada
 				
@@ -182,6 +172,19 @@ public class Jogo extends JPanel{
 		        lbImagem.setIcon(imagemTesoura);
 		    }
 		});
+	}
+	
+	private int imagemIA() {
+		// no momento em que o usuário clica em jogar, é necessário que retorne um número aleatório para definir imagem
+		int opcaoIA = (int)(Math.random() * 4);
+		if (opcaoIA == 1) {
+			lbImagemIA.setIcon(imagemPedra);
+		} else if (opcaoIA == 2) {
+			lbImagemIA.setIcon(imagemPapel);
+		} else {
+			lbImagemIA.setIcon(imagemTesoura);
+		}
+		return opcaoIA;
 	}
 	
 	// metodo de esconder a imagem da IA
