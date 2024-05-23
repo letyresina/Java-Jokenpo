@@ -127,12 +127,7 @@ public class Jogo extends JPanel{
 		
 		add(btJogar);
 		
-		// resultado
-		lbResultado = new JLabel("", JLabel.CENTER);
-		lbResultado.setFont(new Font("Verdana", Font.BOLD, 14));
-		lbResultado.setForeground(Color.black);
-		lbResultado.setBounds(100, 130, 180, 190);
-		add(lbResultado);
+		
 	}
 	
 	private void definirEventos() {
@@ -144,6 +139,22 @@ public class Jogo extends JPanel{
 				int opcaoIA = imagemIA(); // pega da função qual foi a opção da IA
 				
 				// logica de jogo para caso a pedra esteja selecionada
+				
+				// resultados de perda
+				if ((opcaoIA == 0 && rbTesoura.isSelected()) || (opcaoIA == 1 && rbPedra.isSelected())
+						|| (opcaoIA == 2 && rbPapel.isSelected())){
+					resultadoPerdeu();
+				} 
+				
+				// resultados de ganho
+				else if ((opcaoIA == 0 && rbPapel.isSelected()) || (opcaoIA == 1 && rbTesoura.isSelected()) 
+						|| (opcaoIA == 2 && rbPedra.isSelected())) {
+					resultadoGanhou();
+				} 
+				
+				else {
+					empate();
+				}
 				
 				// escondendo a imagem chamando o metódo
 				esconderImagem();
@@ -176,15 +187,41 @@ public class Jogo extends JPanel{
 	
 	private int imagemIA() {
 		// no momento em que o usuário clica em jogar, é necessário que retorne um número aleatório para definir imagem
-		int opcaoIA = (int)(Math.random() * 4);
-		if (opcaoIA == 1) {
+		int opcaoIA = (int)(Math.random() * 3);
+		if (opcaoIA == 0) {
 			lbImagemIA.setIcon(imagemPedra);
-		} else if (opcaoIA == 2) {
+		} else if (opcaoIA == 1) {
 			lbImagemIA.setIcon(imagemPapel);
-		} else {
+		} else if (opcaoIA == 2){
 			lbImagemIA.setIcon(imagemTesoura);
-		}
+		} 
 		return opcaoIA;
+	}
+	
+	// metodo de ganhou / perdeu texto
+	private void resultadoGanhou() {
+		lbResultado = new JLabel("Você ganhou", JLabel.CENTER);
+		lbResultado.setFont(new Font("Verdana", Font.BOLD, 14));
+		lbResultado.setForeground(Color.green);
+		lbResultado.setBounds(100, 130, 180, 190);
+		add(lbResultado);
+		pontuacaoJogador++;
+		lbPontuacaoJogador.setText(String.valueOf(pontuacaoJogador));
+	}
+	
+	private void resultadoPerdeu() {
+		lbResultado = new JLabel("Você perdeu", JLabel.CENTER);
+		lbResultado.setFont(new Font("Verdana", Font.BOLD, 14));
+		lbResultado.setForeground(Color.red);
+		lbResultado.setBounds(100, 130, 180, 190);
+		add(lbResultado);
+		pontuacaoIA++;
+		lbPontuacaoIA.setText(String.valueOf(pontuacaoIA));
+	}
+	
+	private void empate() {
+		lbResultado = new JLabel("", JLabel.CENTER);
+		add(lbResultado);
 	}
 	
 	// metodo de esconder a imagem da IA
